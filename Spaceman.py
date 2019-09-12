@@ -17,7 +17,6 @@ def get_guessed_word(secret_word, letters_guessed):
   combine = ""
   for letter in secret_word:
     blank_space += "_"
-  print(blank_space)
   for x in temp_2:
     combine+= x
   print(combine)
@@ -46,9 +45,10 @@ temp_2 = []
 for x in range(value[0]):
   temp_2.append("_")
 while value[1] is not 0:
+    print("\033[H\033[J")
+    get_guessed_word(secret_word, 0)
     spaceman(secret_word)
     guess = input("Guess a letter: ")
-    print(is_guess_in_word(guess, secret_word))
-    get_guessed_word(secret_word, 0)
+    is_guess_in_word(guess, secret_word)
 else:
   print("You have lost the game! The word was:" +str(secret_word))
