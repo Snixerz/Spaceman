@@ -50,5 +50,4 @@ while value[1] is not 0:
     spaceman(secret_word)
     guess = input("Guess a letter: ")
     is_guess_in_word(guess, secret_word)
-else:
-  print("You have lost the game! The word was:" +str(secret_word))
+    print("You have lost the game! The word was: " + str(secret_word))
