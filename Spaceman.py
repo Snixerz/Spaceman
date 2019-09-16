@@ -1,4 +1,5 @@
 import random
+letters_guessed = []
 
 def load_word():
     f = open('words.txt', 'r')
@@ -9,45 +10,53 @@ def load_word():
     secret_word = random.choice(words_list)
     return secret_word
 
-def split(secret_word):
-  pass
+def is_word_guessed(secret_word, letters_guessed):
+    word = []
+    for letter in secret_word:
+        if letter in letters_guessed:
+            word.append(letter)
+    return secret_word == word
 
 def get_guessed_word(secret_word, letters_guessed):
-  blank_space = ""
-  combine = ""
-  for letter in secret_word:
-    blank_space += "_"
-  for x in temp_2:
-    combine+= x
-  print(combine)
-  return "HELLO"
+    word = []
+    for letter in secret_word:
+        if letter in letters_guessed:
+            word.append(letter)
+        else:
+            word.append('_')
+    return ''.join(word)
 
 def is_guess_in_word(guess, secret_word):
-  index = 0
-  result = True
-  for x in secret_word:
-    if(guess == x):
-      temp_2[index] = x
+    if guess in secret_word:
+        return True
     else:
-      result = False
-    index += 1
-  if(result == False):
-    value[1] -=1
-  return temp_2
+        return False
 
 def spaceman(secret_word):
-    introduction = f"The word contains {value[0]} letters. You have a total of 7 turns per game. You only have {value[1]} before you lose. Try again!"
-    print(introduction)
+    print("Welcome! Let's play Spaceman! You get a lotal of 7 guesses.")
+    guesses = value[1]
+    while  True:
+        guess = input('Guess a letter: ')
+        letters_guessed.append(guess)
+
+        if is_guess_in_word(guess, secret_word) is False:
+            print(get_guessed_word(secret_word,letters_guessed))
+            guesses -= 1
+            print(f'Incorrect! You have {guesses} turn(s) remaining')
+        elif is_guess_in_word(guess, secret_word) is True:
+          print("Correct, guess another letter!")
+
+        if len(guess) > 1 or len(guess) == 0:
+            print('Only single letters. Try again!')
+
+        if guesses == 0:
+          print(f'You lost the game. The secret word was {secret_word}')
+          break
+        
+        is_guess_in_word(guess, secret_word)
+
+    get_guessed_word(secret_word,letters_guessed)
 
 secret_word = load_word()
-value = [len(secret_word), 7]
-temp_2 = []
-for x in range(value[0]):
-  temp_2.append("_")
-while value[1] is not 0:
-    print("\033[H\033[J")
-    get_guessed_word(secret_word, 0)
-    spaceman(secret_word)
-    guess = input("Guess a letter: ")
-    is_guess_in_word(guess, secret_word)
-    print("You have lost the game! The word was: " + str(secret_word))
+value = (len(secret_word), 7)
+spaceman(secret_word)
